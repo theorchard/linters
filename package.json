@@ -7,21 +7,24 @@
     "chalk": "^0.5.1",
     "core-util-is": "^1.0.1",
     "gulp": "^3.8.7",
+    "gulp-cached": "^1.0.1",
+    "gulp-if": "^1.2.4",
     "gulp-ignore": "^1.2.0",
     "gulp-jslint": "^0.1.6",
+    "gulp-jslint-simple": "^0.2.2",
     "gulp-plumber": "^0.6.4",
+    "gulp-scss-lint": "^0.1.1",
     "gulp-util": "^3.0.0",
+    "gulp-watch": "^0.6.9",
     "inherits": "^2.0.1",
     "jslint": "^0.6.1",
     "log-symbols": "^1.0.0",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
-    "gulp-jslint-simple": "^0.2.2",
-    "gulp-scss-lint": "^0.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Michael Ortali",
+  "author": "Michael Ortali"
 }

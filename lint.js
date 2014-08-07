@@ -11,14 +11,21 @@
 'use strict';
 
 var gulp = require('gulp');
+var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
 var jsLint = require('gulp-jslint-simple');
 var scssLint = require('gulp-scss-lint');
+var cache = require('gulp-cached');
+var watch = require('gulp-watch');
 
 var reporter = require('./lib/reporter.js');
 var config = {
     js: require('./config/js.js')(reporter.js),
-    scss: 'configs/scss.yml'
+    scss: 'config/scss.yml',
+    watch: false,
+    cache: false,
+    cssFiles: ['**/*.scss', '!./node_modules/**/*.scss'],
+    jsFiles: ['**/*.js', '!./gulpfile.js', '!./node_modules/**/*.js']
 };
 
 
@@ -35,11 +42,10 @@ var MAIN_TASK_NAME = 'linter:all';
  * Look for all the js file within a specific directory and run jslint on
  * them.
  */
+
 gulp.task('linter:js', function () {
-    return gulp.src([
-        '**/*.js',
-        '!./gulpfile.js',
-        '!./node_modules/**'])
+    return gulp.src(config.jsFiles)
+        .pipe(cache())
         .pipe(jsLint.run(config.js))
         .pipe(jsLint.report({
             reporter: reporter.js
@@ -54,7 +60,8 @@ gulp.task('linter:js', function () {
  * on them.
  */
 gulp.task('linter:scss', function () {
-    return gulp.src(['*.scss'])
+    return gulp.src(config.cssFiles)
+        .pipe(cache())
         .pipe(scssLint({
             config: config.scss,
             customReport: reporter.scss
@@ -63,19 +70,38 @@ gulp.task('linter:scss', function () {
 
 
 /**
+ * Watcher: relaunch the tasks whenever a file is updated.
+ */
+gulp.task('watch:all', function () {
+    if (!config.disableScss) {
+        gulp.watch(config.cssFiles, ['linter:scss']);
+    }
+
+    if (!config.disableJS) {
+        gulp.watch(config.jsFiles, ['linter:js']);
+    }
+});
+
+
+/**
  * @param {Object} options The linters that needs to be disabled.
  */
 module.exports = function (options) {
     options = options || {};
+    config.disableJS = options.disableJS;
+    config.disableScss = options.disableScss;
 
     var tasks = [];
-
     if (!options.disableJS) {
         tasks.push('linter:js');
     }
 
     if (!options.disableScss) {
         tasks.push('linter:scss');
+    }
+
+    if (options.watch) {
+        tasks.push('watch:all');
     }
 
     gulp.task(MAIN_TASK_NAME, tasks);
