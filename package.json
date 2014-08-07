@@ -1,0 +1,25 @@
+{
+  "name": "orchard-styleguides",
+  "version": "0.0.1",
+  "description": "Mechanisms to ensure the code is following our coding styleguides and conventions.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "core-util-is": "^1.0.1",
+    "gulp": "^3.8.7",
+    "gulp-ignore": "^1.2.0",
+    "gulp-jslint": "^0.1.6",
+    "gulp-plumber": "^0.6.4",
+    "gulp-util": "^3.0.0",
+    "inherits": "^2.0.1",
+    "jslint": "^0.6.1",
+    "log-symbols": "^1.0.0",
+    "text-table": "^0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Ortali",
+  "license": "ISC"
+}
