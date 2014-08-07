@@ -45,6 +45,7 @@ O.jsLint = function() {
 O.cssLint = function() {
     return gulp.src(['*.scss'])
         .pipe(scssLint({
+            config: 'configs/scss.yml',
             customReport: reporter.scss
         }));
 };
