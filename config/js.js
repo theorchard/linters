@@ -6,7 +6,8 @@
  * http://www.jslint.com/lint.html.
  */
 
-var reporter = require('../reporter.js');
+'use strict';
+
 var config = {
     'asi': false,
     'bitwise': true,
@@ -23,12 +24,12 @@ var config = {
     'evil': false,
     'expr': false,
     'forin': true,
-    'funcscope': false,
+    'funcscope': true,
     'immed': true,
     'indent': 4,
     'iterator': false,
     'lastsemic': false,
-    'latedef': true,
+    'latedef': false,
     'laxbreak': false,
     'laxcomma': false,
     'loopfunc': false,
@@ -47,11 +48,9 @@ var config = {
     'nonew': true,
     'onevar': false,
     'passfail': false,
-    'passfail': false,
-    'plusplus': false,
+    'plusplus': true,
     'proto': false,
     'quotmark': 'single',
-    'reporter': reporter.js,
     'scripturl': false,
     'shadow': false,
     'smarttabs': false,
@@ -62,6 +61,7 @@ var config = {
     'unused': true,
     'validthis': false,
     'white': false,
+    'vars': true,
 
     // Custom Globals
     'globals' : {
@@ -72,4 +72,7 @@ var config = {
 };
 
 
-module.exports = config;
+module.exports = function (reporter) {
+    config.reporter = reporter;
+    return config;
+};

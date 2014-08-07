@@ -2,7 +2,7 @@
   "name": "orchard-styleguides",
   "version": "0.0.1",
   "description": "Mechanisms to ensure the code is following our coding styleguides and conventions.",
-  "main": "gulpfile.js",
+  "main": "lint.js",
   "dependencies": {
     "chalk": "^0.5.1",
     "core-util-is": "^1.0.1",
@@ -24,5 +24,4 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Ortali",
-  "license": "ISC"
 }
