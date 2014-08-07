@@ -51,7 +51,7 @@ var config = {
     'plusplus': false,
     'proto': false,
     'quotmark': 'single',
-    'reporter': reporter,
+    'reporter': reporter.js,
     'scripturl': false,
     'shadow': false,
     'smarttabs': false,

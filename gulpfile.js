@@ -11,19 +11,21 @@
  */
 
 /** global require */
+var config = {
+    js: require('./configs/js.js')
+};
 
-var gutil = require('gulp-util');
-var jsLint = require('gulp-jslint');
-var plumber = require('gulp-plumber');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
+var jsLint = require('gulp-jslint-simple');
+var plumber = require('gulp-plumber');
 var reporter = require('./reporter.js');
-var jsLintConfig = require('./configs/js.js');
+var scssLint = require('gulp-scss-lint');
 
 /**
  * @constructor
  */
 var O = {};
-
 
 /**
  * Javascript Linter.
@@ -33,17 +35,21 @@ O.jsLint = function() {
           '**/*.js',
           '!./gulpfile.js',
           '!./node_modules/**'])
-      .pipe(plumber())
-      .pipe(jsLint(jsLintConfig));
+      .pipe(jsLint.run(config.js))
+      .pipe(jsLint.report({
+          reporter: reporter.js
+      }));
 };
 
 
 O.cssLint = function() {
-    return gulp.src(['*/**.scss'])
-        .pipe
+    return gulp.src(['*.scss'])
+        .pipe(scssLint({
+            customReport: reporter.scss
+        }));
 };
 
 
 gulp.task('js-lint', O.jsLint);
 gulp.task('css-lint', O.cssLint);
-gulp.task('default', ['js-lint']);
+gulp.task('default', ['js-lint', 'css-lint']);
