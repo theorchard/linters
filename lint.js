@@ -21,7 +21,7 @@ var watch = require('gulp-watch');
 var reporter = require('./lib/reporter.js');
 var config = {
     js: require('./config/js.js')(reporter.js),
-    scss: 'config/scss.yml',
+    scss: __dirname + '/config/scss.yml',
     watch: false,
     cache: false,
     cssFiles: ['**/*.scss', '!./node_modules/**/*.scss'],
