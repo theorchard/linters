@@ -37,59 +37,60 @@ var MAIN_TASK_NAME = 'linter:all';
 
 
 /**
- * Task: JS Linter.
- *
- * Look for all the js file within a specific directory and run jslint on
- * them.
- */
-
-gulp.task('linter:js', function () {
-    return gulp.src(config.jsFiles)
-        .pipe(cache())
-        .pipe(jsLint.run(config.js))
-        .pipe(jsLint.report({
-            reporter: reporter.js
-        }));
-});
-
-
-/**
- * Task: SCSS Linter.
- *
- * Look for all the scss files within a specific directory and run scss linter
- * on them.
- */
-gulp.task('linter:scss', function () {
-    return gulp.src(config.cssFiles)
-        .pipe(cache())
-        .pipe(scssLint({
-            config: config.scss,
-            customReport: reporter.scss
-        }));
-});
-
-
-/**
- * Watcher: relaunch the tasks whenever a file is updated.
- */
-gulp.task('watch:all', function () {
-    if (!config.disableScss) {
-        gulp.watch(config.cssFiles, ['linter:scss']);
-    }
-
-    if (!config.disableJS) {
-        gulp.watch(config.jsFiles, ['linter:js']);
-    }
-});
-
-
-/**
  * @param {Object} options The linters that needs to be disabled.
  */
-module.exports = function (options) {
+module.exports = function (gulp, options) {
     options = options || {};
     config.disableJS = options.disableJS;
     config.disableScss = options.disableScss;
+
+
+    /**
+     * Task: JS Linter.
+     *
+     * Look for all the js file within a specific directory and run jslint on
+     * them.
+     */
+
+    gulp.task('linter:js', function () {
+        return gulp.src(config.jsFiles)
+            .pipe(cache())
+            .pipe(jsLint.run(config.js))
+            .pipe(jsLint.report({
+                reporter: reporter.js
+            }));
+    });
+
+
+    /**
+     * Task: SCSS Linter.
+     *
+     * Look for all the scss files within a specific directory and run scss linter
+     * on them.
+     */
+    gulp.task('linter:scss', function () {
+        return gulp.src(config.cssFiles)
+            .pipe(cache())
+            .pipe(scssLint({
+                config: config.scss,
+                customReport: reporter.scss
+            }));
+    });
+
+
+    /**
+     * Watcher: relaunch the tasks whenever a file is updated.
+     */
+    gulp.task('watch:all', function () {
+        if (!config.disableScss) {
+            gulp.watch(config.cssFiles, ['linter:scss']);
+        }
+
+        if (!config.disableJS) {
+            gulp.watch(config.jsFiles, ['linter:js']);
+        }
+    });
+
 
     var tasks = [];
     if (!options.disableJS) {
