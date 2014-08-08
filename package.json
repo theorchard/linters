@@ -1,5 +1,5 @@
 {
-  "name": "orchard-styleguides",
+  "name": "orchard-linters",
   "version": "0.0.1",
   "description": "Mechanisms to ensure the code is following our coding styleguides and conventions.",
   "main": "lint.js",
@@ -20,8 +20,6 @@
     "jslint": "^0.6.1",
     "log-symbols": "^1.0.0",
     "text-table": "^0.2.0"
-  },
-  "devDependencies": {
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

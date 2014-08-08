@@ -1,5 +1,5 @@
 /**
- * Orchard StyleGuide.
+ * Orchard Linters.
  *
  * This gulp plugin verifies that the code is following our styleguides
  * and warns when it isn't. It allows us to quickly catch issues such as
@@ -9,7 +9,7 @@
  *
  *     ```
  *     var gulp = require('gulp');
- *     var linters = require('orchard-styleguides');
+ *     var linters = require('orchard-linters');
  *     linters.register(gulp, {
  *         scssFiles: ['!scssFilesToNotInclude.scss'],
  *         jsFiles: ['!jsFilesToNotInclude.js']
