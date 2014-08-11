@@ -36,6 +36,7 @@
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
+var jsHint = require('gulp-jshint');
 var jsLint = require('gulp-jslint-simple');
 var scssLint = require('gulp-scss-lint');
 var cache = require('gulp-cached');
@@ -47,7 +48,8 @@ var reporter = require('./lib/reporter.js');
  * Configuration of the plugin.
  */
 var config = {
-    js: require('./config/js.js'),
+    jshint: __dirname + '/config/jshint.js',
+    jslint: require('./config/jslint.js'),
     scss: __dirname + '/config/scss.yml',
     watch: false,
     cache: false,
@@ -86,7 +88,9 @@ var register = function (gulp, options) {
             .pipe(jsLint.run(config.js))
             .pipe(jsLint.report({
                 reporter: reporter.js
-            }));
+            }))
+            .pipe(jsHint(config.js))
+            .pipe(jsHint.reporter(reporter.js));
     });
 
 
