@@ -33,22 +33,18 @@
 
 'use strict';
 
-var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var gutil = require('gulp-util');
 var jsHint = require('gulp-jshint');
 var jsLint = require('gulp-jslint-simple');
 var scssLint = require('gulp-scss-lint');
 var cache = require('gulp-cached');
-var watch = require('gulp-watch');
-
 var reporter = require('./lib/reporter.js');
+
 
 /**
  * Configuration of the plugin.
  */
 var config = {
-    jshint: __dirname + '/config/jshint.js',
+    jshint: require('./config/jshint.js'),
     jslint: require('./config/jslint.js'),
     scss: __dirname + '/config/scss.yml',
     watch: false,
@@ -85,20 +81,20 @@ var register = function (gulp, options) {
     gulp.task('linter:js', function () {
         return gulp.src(config.jsFiles)
             .pipe(cache())
-            .pipe(jsLint.run(config.js))
+            .pipe(jsLint.run(config.jslint))
             .pipe(jsLint.report({
-                reporter: reporter.js
+                reporter: reporter.js('jsLint')
             }))
-            .pipe(jsHint(config.js))
-            .pipe(jsHint.reporter(reporter.js));
+            .pipe(jsHint(config.jshint))
+            .pipe(jsHint.reporter(reporter.js('jsHint')));
     });
 
 
     /**
      * Task: SCSS Linter.
      *
-     * Look for all the scss files within a specific directory and run scss linter
-     * on them.
+     * Look for all the scss files within a specific directory and run scss
+     * linter on them.
      */
     gulp.task('linter:scss', function () {
         return gulp.src(config.scssFiles)
