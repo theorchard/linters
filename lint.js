@@ -44,8 +44,8 @@ var reporter = require('./lib/reporter.js');
  * Configuration of the plugin.
  */
 var config = {
-    jshint: require('./config/jshint.js'),
-    jslint: require('./config/jslint.js'),
+    jsHint: require('./config/jshint.js'),
+    jsLint: require('./config/jslint.js'),
     scss: __dirname + '/config/scss.yml',
     watch: false,
     cache: false,
@@ -81,11 +81,15 @@ var register = function (gulp, options) {
     gulp.task('linter:js', function () {
         return gulp.src(config.jsFiles)
             .pipe(cache())
-            .pipe(jsLint.run(config.jslint))
+
+            // JS Lint
+            .pipe(jsLint.run(config.jsLint))
             .pipe(jsLint.report({
                 reporter: reporter.js('jsLint')
             }))
-            .pipe(jsHint(config.jshint))
+
+            // JS Hint
+            .pipe(jsHint(config.jsHint))
             .pipe(jsHint.reporter(reporter.js('jsHint')));
     });
 
