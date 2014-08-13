@@ -23,9 +23,11 @@
     "log-symbols": "^1.0.0",
     "text-table": "^0.2.0"
   },
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Michael Ortali"
+  "author": "Michael Ortali",
+  "devDependencies": {
+    "gulp-jscs": "^1.1.0"
+  }
 }
