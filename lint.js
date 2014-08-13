@@ -60,7 +60,10 @@ var config = {
 
     // Look for all the .scss files except the ones in node_modules and the
     // gulpfile.js
-    jsFiles: ['**/*.js', '!./gulpfile.js', '!./node_modules/**/*.js']
+    jsFiles: ['**/*.js', '!./gulpfile.js', '!./node_modules/**/*.js'],
+
+    // Look for all the php files.
+    phpFiles: ['**/*.php', '!./vendor/**/*.php']
 };
 
 
@@ -74,6 +77,7 @@ var register = function (gulp, options) {
     options = options || {};
     config.disableJS = options.disableJS;
     config.disableScss = options.disableScss;
+    config.disablePhp = options.disablePhp;
     config.scssFiles = config.scssFiles.concat(options.scssFiles || []);
     config.jsFiles = config.jsFiles.concat(options.jsFiles || []);
 
@@ -131,6 +135,20 @@ var register = function (gulp, options) {
 
 
     /**
+     * Task: php linter (PHP_CodeSniffer)
+     */
+    gulp.task('linter:php', function() {
+        var codeSniffer = shell(
+            [__dirname + '/vendor/bin/phpcs <%= file.path %>'],
+            {quiet: true, ignoreErrors: true});
+
+        return gulp.src(config.phpFiles, {read: false})
+            .pipe(codeSniffer)
+            .on('data', reporter.php);
+    });
+
+
+    /**
      * Watcher: relaunch the tasks whenever a file is updated.
      */
     gulp.task('watch:all', function () {
@@ -141,15 +159,22 @@ var register = function (gulp, options) {
         if (!config.disableJS) {
             gulp.watch(config.jsFiles, ['linter:js']);
         }
+
+        if (!config.disablePhp) {
+            gulp.watch(config.phpFiles, ['linter:php']);
+        }
     });
 };
 
 
 module.exports = {
     register: register,
-    //all: ['linter:scss', 'linter:js', 'linter:python'],
-    dev: ['linter:scss', 'linter:js', 'linter:python', 'watch:all'],
-    all: ['linter:js'],
+    all: ['linter:scss', 'linter:js', 'linter:python', 'linter:php'],
+    dev: [
+        'linter:scss', 'linter:js', 'linter:python', 'linter:php',
+        'watch:all'
+    ],
+    php: ['linter:php'],
     python: ['linter:python'],
     scss: ['linter:scss'],
     watch: ['watch:all']
