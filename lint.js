@@ -23,6 +23,7 @@
  *     * `all`: Lint all the files, for all formats.
  *     * `scss`:  Lint only scss files.
  *     * `js`: Lint only js files.
+ *     * `py`: Lint only python files
  *     * `watch`: Launch the watcher which runs whenever one file (scss, js)
  *            is updated. If you want the watcher to only execute for a specific
  *            file format, specify the options `disableJs` or `disableScss`.
@@ -33,11 +34,13 @@
 
 'use strict';
 
+var reporter = require('./lib/reporter.js');
+
+var cache = require('gulp-cached');
+var shell = require('gulp-shell');
 var jsHint = require('gulp-jshint');
 var jsLint = require('gulp-jslint-simple');
 var scssLint = require('gulp-scss-lint');
-var cache = require('gulp-cached');
-var reporter = require('./lib/reporter.js');
 
 
 /**
@@ -52,6 +55,8 @@ var config = {
 
     // Look for all the .scss files except the ones in node_modules.
     scssFiles: ['**/*.scss', '!./node_modules/**/*.scss'],
+
+    pyFiles: ['**/*.py', '!./bin/**/*.py', '!./lib/python*/**/*.py'],
 
     // Look for all the .scss files except the ones in node_modules and the
     // gulpfile.js
@@ -110,6 +115,24 @@ var register = function (gulp, options) {
 
 
     /**
+     * Task: Python linter.
+     *
+     * Look for all the python files within a specific directory and run the
+     * pyflakes and pep8 against them.
+     */
+    gulp.task('linter:python', function () {
+        var pylint = shell([
+            'pyflakes <%= file.path %>',
+            'pylint --rcfile=config/pylint <%= file.path %>'],
+            {quiet: true, ignoreErrors: true});
+
+        return gulp.src(config.pyFiles, {read: false})
+            .pipe(pylint)
+            .on('data', reporter.py);
+    });
+
+
+    /**
      * Watcher: relaunch the tasks whenever a file is updated.
      */
     gulp.task('watch:all', function () {
@@ -126,9 +149,10 @@ var register = function (gulp, options) {
 
 module.exports = {
     register: register,
-    all: ['linter:scss', 'linter:js'],
-    dev: ['linter:scss', 'linter:js', 'watch:all'],
+    all: ['linter:scss', 'linter:js', 'linter:python'],
+    dev: ['linter:scss', 'linter:js', 'linter:python', 'watch:all'],
     js: ['linter:js'],
+    python: ['linter:python'],
     scss: ['linter:scss'],
     watch: ['watch:all']
 };

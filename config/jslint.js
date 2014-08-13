@@ -24,7 +24,7 @@ var config = {
     'proto': false,
     'sub': true,
     'unused': true,
-    'vars': true,
+    'vars': false,
     'white': false,
 
     // Custom Globals
