@@ -21,13 +21,11 @@
     "inherits": "^2.0.1",
     "jslint": "^0.6.1",
     "log-symbols": "^1.0.0",
-    "text-table": "^0.2.0"
+    "text-table": "^0.2.0",
+    "gulp-jscs": "^1.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Michael Ortali",
-  "devDependencies": {
-    "gulp-jscs": "^1.1.0"
-  }
+  "author": "Michael Ortali"
 }

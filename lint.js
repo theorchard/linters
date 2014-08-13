@@ -38,8 +38,8 @@ var reporter = require('./lib/reporter.js');
 
 var cache = require('gulp-cached');
 var shell = require('gulp-shell');
+var jsCs = require('gulp-jscs');
 var jsHint = require('gulp-jshint');
-var jsLint = require('gulp-jslint-simple');
 var scssLint = require('gulp-scss-lint');
 
 
@@ -48,7 +48,7 @@ var scssLint = require('gulp-scss-lint');
  */
 var config = {
     jsHint: require('./config/jshint.js'),
-    jsLint: require('./config/jslint.js'),
+    jsCs: require('./config/jscs.js'),
     scss: __dirname + '/config/scss.yml',
     watch: false,
     cache: false,
@@ -87,15 +87,12 @@ var register = function (gulp, options) {
         return gulp.src(config.jsFiles)
             .pipe(cache())
 
-            // JS Lint
-            .pipe(jsLint.run(config.jsLint))
-            .pipe(jsLint.report({
-                reporter: reporter.js('jsLint')
-            }))
-
             // JS Hint
             .pipe(jsHint(config.jsHint))
-            .pipe(jsHint.reporter(reporter.js('jsHint')));
+            .pipe(jsHint.reporter(reporter.js('jsHint')))
+
+            // JS CS
+            .pipe(jsCs(config.jsCs));
     });
 
 
@@ -122,8 +119,9 @@ var register = function (gulp, options) {
      */
     gulp.task('linter:python', function () {
         var pylint = shell([
-            'pyflakes <%= file.path %>',
-            'pylint --rcfile=config/pylint <%= file.path %>'],
+                'pyflakes <%= file.path %>',
+                'pylint --rcfile=config/pylint <%= file.path %>'
+            ],
             {quiet: true, ignoreErrors: true});
 
         return gulp.src(config.pyFiles, {read: false})
@@ -149,9 +147,9 @@ var register = function (gulp, options) {
 
 module.exports = {
     register: register,
-    all: ['linter:scss', 'linter:js', 'linter:python'],
+    //all: ['linter:scss', 'linter:js', 'linter:python'],
     dev: ['linter:scss', 'linter:js', 'linter:python', 'watch:all'],
-    js: ['linter:js'],
+    all: ['linter:js'],
     python: ['linter:python'],
     scss: ['linter:scss'],
     watch: ['watch:all']
