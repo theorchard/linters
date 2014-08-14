@@ -2,7 +2,10 @@
 
 ## Requirements
 
-The linters are currently running with `Gulp`, so you need to have `node` and `npm` in your environment. If you need the scss linter, you will need to run the dependencies of the [gem file](https://github.com/theorchard/linters/blob/master/Gemfile).
+The linters are currently running with `Gulp`, so you need to have `node` and `npm` in your environment. Some linters need specific dependencies:
+
+* Scss linter requires to run the Ruby dependencies ([gem file](https://github.com/theorchard/linters/blob/master/Gemfile))
+* PHP linter requires to run the composer dependencies ([composer.json](https://github.com/theorchard/linters/blob/master/composer.json))
 
 ## Installation
 
@@ -39,6 +42,7 @@ When you call the `register` method, the second parameter allows you to pass in 
 * `disableJs`: (only for the watcher task) if you don't want to watch changes on js files.
 * `jsFiles`: additional js files to consider or ignore. The linter will always check against all `.js`. 
 * `scssFiles`: additional scss files to consider or ignore. The linter will always check against all `.scss` files.
+* `phpFiles`: additional php files to consider or ignore. The linter will always check against all `.php` files.
 
 ### Linter task sets:
 
@@ -46,6 +50,7 @@ There are 4 different linter tasks sets:
 
 * `linters.js`: will make jslint run against your js files.
 * `linters.scss`: will make scss-lint run against all your scss files.
+* `linters.php`: will make php codesniffer run against all your php files.
 * `linters.all`: will run both js and scss.
 * `linters.dev`: will run all linters and a watcher (so when a file is updated, the linters are running on that specific file.)
 
