@@ -15,7 +15,7 @@
     "gulp-jslint-simple": "^0.2.2",
     "gulp-plumber": "^0.6.4",
     "gulp-scss-lint": "^0.1.1",
-    "gulp-shell": "^0.2.9",
+    "gulp-shell": "git://github.com/xethorn/gulp-shell",
     "gulp-util": "^3.0.0",
     "gulp-watch": "^0.6.9",
     "inherits": "^2.0.1",
