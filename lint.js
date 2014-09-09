@@ -139,7 +139,7 @@ var register = function (gulp, options) {
      */
     gulp.task('linter:php', function() {
         var codeSniffer = shell(
-            [__dirname + '/vendor/bin/phpcs <%= file.path %>'],
+            [__dirname + '/vendor/bin/phpcs --standard=PSR2 <%= file.path %>'],
             {quiet: true, ignoreErrors: true});
 
         return gulp.src(config.phpFiles, {read: false})
