@@ -11,8 +11,10 @@
  *     var gulp = require('gulp');
  *     var linters = require('orchard-linters');
  *     linters.register(gulp, {
- *         scssFiles: ['!scssFilesToNotInclude.scss'],
- *         jsFiles: ['!jsFilesToNotInclude.js']
+ *         files: {
+ *             scss: ['scssFilesToInclude.scss'],
+ *             js: ['jsFilesToInclude.js']
+ *         }
  *     });
  *     gulp.task('default', linters.all);
  *     ```
@@ -58,8 +60,8 @@ var config = {
     files: {
         js: [],
         php: [],
-        py: []
-        scss: [],
+        py: [],
+        scss: []
     }
 };
 

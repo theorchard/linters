@@ -21,6 +21,7 @@
     "inherits": "^2.0.1",
     "jslint": "^0.6.1",
     "log-symbols": "^1.0.0",
+    "node.extend": "^1.1.2",
     "text-table": "^0.2.0",
     "gulp-jscs": "^1.1.0"
   },
