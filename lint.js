@@ -37,6 +37,7 @@
 var reporter = require('./lib/reporter.js');
 
 var cache = require('gulp-cached');
+var extend = require('node.extend');
 var shell = require('gulp-shell');
 var jsCs = require('gulp-jscs');
 var jsHint = require('gulp-jshint');
@@ -54,16 +55,12 @@ var config = {
     cache: false,
 
     // Look for all the .scss files except the ones in node_modules.
-    scssFiles: ['**/*.scss', '!./node_modules/**/*.scss'],
-
-    pyFiles: ['**/*.py', '!./bin/**/*.py', '!./lib/python*/**/*.py'],
-
-    // Look for all the .scss files except the ones in node_modules and the
-    // gulpfile.js
-    jsFiles: ['**/*.js', '!./gulpfile.js', '!./node_modules/**/*.js'],
-
-    // Look for all the php files.
-    phpFiles: ['**/*.php', '!./vendor/**/*.php']
+    files: {
+        js: [],
+        php: [],
+        py: []
+        scss: [],
+    }
 };
 
 
@@ -75,11 +72,11 @@ var config = {
  */
 var register = function (gulp, options) {
     options = options || {};
+    config.files = extend(config.files, options.files);
+
     config.disableJS = options.disableJS;
     config.disableScss = options.disableScss;
     config.disablePhp = options.disablePhp;
-    config.scssFiles = config.scssFiles.concat(options.scssFiles || []);
-    config.jsFiles = config.jsFiles.concat(options.jsFiles || []);
 
     /**
      * Task: JS Linter.
@@ -88,7 +85,7 @@ var register = function (gulp, options) {
      * them.
      */
     gulp.task('linter:js', function () {
-        return gulp.src(config.jsFiles)
+        return gulp.src(config.files.js)
             .pipe(cache())
 
             // JS Hint
@@ -107,7 +104,7 @@ var register = function (gulp, options) {
      * linter on them.
      */
     gulp.task('linter:scss', function () {
-        return gulp.src(config.scssFiles)
+        return gulp.src(config.files.scss)
             .pipe(scssLint({
                 config: config.scss,
                 customReport: reporter.scss
@@ -128,7 +125,7 @@ var register = function (gulp, options) {
             ],
             {quiet: true, ignoreErrors: true});
 
-        return gulp.src(config.pyFiles, {read: false})
+        return gulp.src(config.files.py, {read: false})
             .pipe(pylint)
             .on('data', reporter.py);
     });
@@ -142,7 +139,7 @@ var register = function (gulp, options) {
             [__dirname + '/vendor/bin/phpcs --standard=PSR2 <%= file.path %>'],
             {quiet: true, ignoreErrors: true});
 
-        return gulp.src(config.phpFiles, {read: false})
+        return gulp.src(config.files.php, {read: false})
             .pipe(codeSniffer)
             .on('data', reporter.php);
     });
