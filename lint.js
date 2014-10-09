@@ -79,7 +79,7 @@ var register = function (gulp, options) {
     config.disableJS = options.disableJS;
     config.disableScss = options.disableScss;
     config.disablePhp = options.disablePhp;
-    config.jsCs = extend(config.jsCs, options.jsCs);
+    config.jsHint.globals = extend(config.jsHint.globals, options.jsHintGlobals);
 
     /**
      * Task: JS Linter.
@@ -152,22 +152,27 @@ var register = function (gulp, options) {
      * Watcher: relaunch the tasks whenever a file is updated.
      */
     gulp.task('watch:all', function () {
-        if (!config.disableScss) {
+        if (config.files.scss.length > 0) {
             gulp.watch(config.cssFiles, ['linter:scss']);
         }
 
-        if (!config.disableJS) {
+        if (config.files.js.length > 0) {
             gulp.watch(config.jsFiles, ['linter:js']);
         }
 
-        if (!config.disablePhp) {
+        if (config.files.php.length > 0) {
             gulp.watch(config.phpFiles, ['linter:php']);
+        }
+
+        if (config.files.py.length > 0) {
+            gulp.watch(config.phpFiles, ['linter:py']);
         }
     });
 };
 
 
 module.exports = {
+    config: config,
     register: register,
     all: ['linter:scss', 'linter:js', 'linter:python', 'linter:php'],
     dev: [
