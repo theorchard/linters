@@ -79,6 +79,7 @@ var register = function (gulp, options) {
     config.disableJS = options.disableJS;
     config.disableScss = options.disableScss;
     config.disablePhp = options.disablePhp;
+    config.jsCs = extend(config.jsCs, options.jsCs);
 
     /**
      * Task: JS Linter.

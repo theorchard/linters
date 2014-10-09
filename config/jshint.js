@@ -63,7 +63,11 @@ var config = {
 
     // Custom Globals
     'globals' : {
+        '$': false,
+        '_': false,
+        'Backbone': false,
         'console': true,
+        'goog': false,
         'jQuery': true,
         'require': true
     }
