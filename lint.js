@@ -58,8 +58,8 @@ var config = {
     files: {
         js: [],
         php: [],
-        py: []
-        scss: [],
+        py: [],
+        scss: []
     }
 };
 
