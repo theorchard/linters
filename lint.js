@@ -27,8 +27,7 @@
  *     * `js`: Lint only js files.
  *     * `py`: Lint only python files
  *     * `watch`: Launch the watcher which runs whenever one file (scss, js)
- *            is updated. If you want the watcher to only execute for a specific
- *            file format, specify the options `disableJs` or `disableScss`.
+ *            is updated.
  *     * `dev`: Launch the linter, and attach the watcher.
  *
  * @author Michael Ortali <mortali@theorchard.com>
@@ -75,11 +74,8 @@ var config = {
 var register = function (gulp, options) {
     options = options || {};
     config.files = extend(config.files, options.files);
-
-    config.disableJS = options.disableJS;
-    config.disableScss = options.disableScss;
-    config.disablePhp = options.disablePhp;
-    config.jsHint.globals = extend(config.jsHint.globals, options.jsHintGlobals);
+    config.jsHint.globals = extend(
+        config.jsHint.globals, options.jsHintGlobals);
 
     /**
      * Task: JS Linter.

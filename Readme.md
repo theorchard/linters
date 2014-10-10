@@ -38,11 +38,10 @@ gulp.task('lint', linters.all);
 
 When you call the `register` method, the second parameter allows you to pass in some options:
 
-* `disableScss`: (only for the watcher task) if you don't want to watch changes on scss files.
-* `disableJs`: (only for the watcher task) if you don't want to watch changes on js files.
-* `jsFiles`: additional js files to consider or ignore. The linter will always check against all `.js`. 
-* `scssFiles`: additional scss files to consider or ignore. The linter will always check against all `.scss` files.
-* `phpFiles`: additional php files to consider or ignore. The linter will always check against all `.php` files.
+* `files`: Dictionary that contains the list of all your files.
+* `files.php`: List of all your php files.
+* `files.js`: List of all your javascript files.
+* `files.scss`: List of all your Sass files.
 
 ### Linter task sets:
 
@@ -53,10 +52,3 @@ There are 4 different linter tasks sets:
 * `linters.php`: will make php codesniffer run against all your php files.
 * `linters.all`: will run both js and scss.
 * `linters.dev`: will run all linters and a watcher (so when a file is updated, the linters are running on that specific file.)
-
-
-## Questions
-
-* **If the linter runs on all the scss files, why do we have a scssFiles flag**: In case one file doesn't have the extension .scss, but we want to run the linter against. This flag should be more used to exclude files rather than including new ones.
-
-
