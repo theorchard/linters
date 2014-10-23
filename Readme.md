@@ -1,4 +1,4 @@
-# Orchard Linters
+# Gulp Linters
 
 ## Requirements
 
@@ -12,7 +12,7 @@ The linters are currently running with `Gulp`, so you need to have `node` and `n
 The installation of this module is simple. First make sure your ssh keys are allowing you to access github from your environment. At the root of your project, update your package.json and add in the dependency section:
 
 ```js
-"orchard-linters": "git+ssh://git@github.com:theorchard/linters.git",
+"gulp-linters": "git+ssh://git@github.com:xethorn/linters.git",
 ```
 
 If you don't have an existing `package.json`, run [`npm init`](https://www.npmjs.org/doc/cli/npm-init.html), when it has been generated, add the line above in the newly created `package.json`. You also probably want to add "Gulp". To do so, run: `npm install gulp --save-dev`.
@@ -21,13 +21,13 @@ If you don't have an existing `package.json`, run [`npm init`](https://www.npmjs
 
 If you've never worked with [Gulp](http://gulpjs.com/), it's a task manager that allows you to run tasks concurrently. It works with a `gulpfile.js`, in which you can find the different tasks it can run. To start gulp, you just have to run: `gulp [taskname]`.
 
-The Orchard linters have been built as a gulp extension you require then use. It will look like this:
+The Gulp Linters have been built as a gulp extension you require then use. It will look like this:
 
 ```js
 var gulp = require('gulp');
 
 // Requesting the linters, and registering the new tasks on this gulp instance.
-var linters = require('orchard-linters');
+var linters = require('gulp-linters');
 linters.register(gulp);
 gulp.task('lint', linters.all);
 ```

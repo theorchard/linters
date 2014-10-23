@@ -1,5 +1,5 @@
 {
-  "name": "orchard-linters",
+  "name": "gulp-linters",
   "version": "0.0.1",
   "description": "Mechanisms to ensure the code is following our coding styleguides and conventions.",
   "main": "lint.js",
@@ -26,7 +26,9 @@
     "gulp-jscs": "^1.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "make install"
   },
-  "author": "Michael Ortali"
+  "author": {
+    "name": "Michael Ortali"
+  }
 }

@@ -1,7 +1,7 @@
 /**
- * Orchard Linters.
+ * Gulp Linters.
  *
- * This gulp plugin verifies that the code is following our styleguides
+ * This gulp plugin verifies that the code is following standard styleguides
  * and warns when it isn't. It allows us to quickly catch issues such as
  * tabs instead of spaces, missing comments, errors etc.
  *
@@ -9,7 +9,7 @@
  *
  *     ```
  *     var gulp = require('gulp');
- *     var linters = require('orchard-linters');
+ *     var linters = require('gulp-linters');
  *     linters.register(gulp, {
  *         files: {
  *             scss: ['scssFilesToInclude.scss'],
@@ -27,7 +27,8 @@
  *     * `js`: Lint only js files.
  *     * `py`: Lint only python files
  *     * `watch`: Launch the watcher which runs whenever one file (scss, js)
- *            is updated.
+ *            is updated. If you want the watcher to only execute for a specific
+ *            file format, specify the options `disableJs` or `disableScss`.
  *     * `dev`: Launch the linter, and attach the watcher.
  *
  * @author Michael Ortali <mortali@theorchard.com>
@@ -43,6 +44,7 @@ var shell = require('gulp-shell');
 var jsCs = require('gulp-jscs');
 var jsHint = require('gulp-jshint');
 var scssLint = require('gulp-scss-lint');
+var gutil = require('gulp-util');
 
 
 /**
@@ -74,8 +76,12 @@ var config = {
 var register = function (gulp, options) {
     options = options || {};
     config.files = extend(config.files, options.files);
-    config.jsHint.globals = extend(
-        config.jsHint.globals, options.jsHintGlobals);
+    config.disableJS = options.disableJS;
+    config.disableScss = options.disableScss;
+    config.disablePhp = options.disablePhp;
+    config.jsHint.globals = extend(config.jsHint.globals, options.jsHintGlobals);
+
+    reporter.setFailureHandler(options.onFail);
 
     /**
      * Task: JS Linter.
@@ -92,7 +98,12 @@ var register = function (gulp, options) {
             .pipe(jsHint.reporter(reporter.js('jsHint')))
 
             // JS CS
-            .pipe(jsCs(config.jsCs));
+            .pipe(jsCs(config.jsCs))
+            .on('error', function(err) {
+                gutil.log('\n' + err.message);
+                options.onFail();
+                this.emit('end');
+            });
     });
 
 
@@ -173,8 +184,7 @@ module.exports = {
     all: ['linter:scss', 'linter:js', 'linter:python', 'linter:php'],
     dev: [
         'linter:scss', 'linter:js', 'linter:python', 'linter:php',
-        'watch:all'
-    ],
+        'watch:all'],
     php: ['linter:php'],
     python: ['linter:python'],
     scss: ['linter:scss'],

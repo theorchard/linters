@@ -2,8 +2,9 @@ linters:
   BorderZero:
     enabled: true
 
-  CapitalizationInSelector:
-    enabled: false
+  SelectorFormat:
+    convention: '^[a-zA-Z0-9]+$'
+    enabled: true
 
   ColorKeyword:
     enabled: true
