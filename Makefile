@@ -1,5 +1,5 @@
 install:
 	bundle || gem install bundle
-	gem install compass
+	compass || gem install compass
 	bundle install
 	pip install -r requirements.txt
