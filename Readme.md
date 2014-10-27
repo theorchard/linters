@@ -1,5 +1,7 @@
 # Gulp Linters
 
+Licence: MIT.
+
 ## Requirements
 
 The linters are currently running with `Gulp`, so you need to have `node` and `npm` in your environment. Some linters need specific dependencies:
